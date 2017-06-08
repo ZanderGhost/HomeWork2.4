@@ -62,23 +62,29 @@ import os.path
 #
 #find_file()
 
-def read_file():
+def read_file(file_name):
+    with open(file_name, 'r') as f:
+        file_data = f.read()
+        return file_data
+
+def read_file_name():
     migrations = 'Migrations'
     files = glob.glob(os.path.join(migrations, "*.sql"))
     return files 
 
-def iter(files, find_file):
+def iter_files(files, find_file):
     temp_list = []
     for item in files:
-        if find_file in item:
+        file_data = read_file(item)
+        if find_file in file_data:
              temp_list.append(item)
     return temp_list
 
 def search_file(): 
-    files = read_file()
+    files = read_file_name()
     while True:
         find_file = input('Введите строку:')
-        files = iter(files, find_file)
+        files = iter_files(files, find_file)
         for item in files:
             print(item)
         print('Всего: {}'.format(len(files)))
